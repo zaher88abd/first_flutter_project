@@ -1,10 +1,9 @@
 import "package:flutter/material.dart";
 
-import 'package:flutter_first_app/question.dart';
+import './question.dart';
+import './answer.dart';
 
-void main() {
-  runApp(MyApp());
-}
+void main() => runApp(MyApp());
 
 class MyApp extends StatefulWidget {
   @override
@@ -16,7 +15,20 @@ class MyApp extends StatefulWidget {
 
 class MyAppState extends State<MyApp> {
   var questionIndex = 0;
-  var questions = ["What is your color?", "What is your cuntry"];
+  var questions = [
+    {
+      "questionText": "What is your color?",
+      "answers": ["Red", "Blue", "Green", "Brown"]
+    },
+    {
+      "questionText": "What do you live?",
+      "answers": ["Canada", "USA", "Syria", "Eygpt"]
+    },
+    {
+      "questionText": "What is your favurate fruit",
+      "answers": ["Apple", "Grap", "GreenApple", "Orange"]
+    }
+  ];
 
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -27,27 +39,19 @@ class MyAppState extends State<MyApp> {
         body: Column(
           children: <Widget>[
             Question(
-              questions[questionIndex],
+              questions[questionIndex]["questionText"],
             ),
-            RaisedButton(
-              child: Text("Answer1"),
-              onPressed: answerQuestion,
-            ),
-            RaisedButton(
-              child: Text("Answer2"),
-              onPressed: answerQuestion,
-            ),
-            RaisedButton(
-              child: Text("Answer3"),
-              onPressed: () => print("Chose answer  3"),
-            ),
+            ...(questions[questionIndex]["answers"] as List<String>)
+                .map((answer) {
+              return Answer(answer, _answerQuestion);
+            }).toList()
           ],
         ),
       ),
     );
   }
 
-  void answerQuestion() {
+  void _answerQuestion() {
     setState(() {
       questionIndex += 1;
     });
