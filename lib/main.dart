@@ -36,17 +36,21 @@ class MyAppState extends State<MyApp> {
         appBar: AppBar(
           title: Text("My first App"),
         ),
-        body: Column(
-          children: <Widget>[
-            Question(
-              questions[questionIndex]["questionText"],
-            ),
-            ...(questions[questionIndex]["answers"] as List<String>)
-                .map((answer) {
-              return Answer(answer, _answerQuestion);
-            }).toList()
-          ],
-        ),
+        body: questionIndex < questions.length
+            ? Column(
+                children: <Widget>[
+                  Question(
+                    questions[questionIndex]["questionText"],
+                  ),
+                  ...(questions[questionIndex]["answers"] as List<String>)
+                      .map((answer) {
+                    return Answer(answer, _answerQuestion);
+                  }).toList()
+                ],
+              )
+            : Center(
+                child: Text("Done questions !"),
+              ),
       ),
     );
   }
